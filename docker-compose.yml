@@ -1,0 +1,27 @@
+version: '1'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DATABASE_URL=postgres://username:password@postgres:5432/dbname  # Update with actual connection details
+      - REDIS_URL=redis://redis:6379  # Update with actual connection details
+    depends_on:
+      - postgres
+      - redis
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: dbname
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"

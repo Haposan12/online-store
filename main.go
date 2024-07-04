@@ -38,6 +38,10 @@ import (
 	cartHandler "github.com/online-store/internal/cart/delivery/http"
 	cartRepository "github.com/online-store/internal/cart/repository"
 	cartUseCase "github.com/online-store/internal/cart/usecase"
+
+	orderHandler "github.com/online-store/internal/order/delivery/http"
+	orderRepository "github.com/online-store/internal/order/repository"
+	orderUseCase "github.com/online-store/internal/order/usecase"
 )
 
 func main() {
@@ -156,11 +160,13 @@ func main() {
 	productRepository := productRepository.NewProductRepository(gormDb.Conn())
 	customerRepo := customerRepository.NewCustomerRepository(gormDb.Conn())
 	cartRepo := cartRepository.NewCartRepository(gormDb.Conn())
+	orderRepo := orderRepository.NewOrderRepository(gormDb.Conn())
 
 	//init use case
 	productUseCase := productUC.NewProductUseCase(productRepository, redisRepository, zapLog)
 	customerUC := customerUseCase.NewCustomerUseCase(customerRepo, zapLog)
 	cartUC := cartUseCase.NewCustomerUseCase(cartRepo, zapLog, redisRepository)
+	orderUC := orderUseCase.NewOrderUseCase(orderRepo, zapLog)
 
 	// default error handler
 	beego.ErrorController(&internal.BaseController{})
@@ -169,6 +175,7 @@ func main() {
 	productHandler.NewProductHandler(productUseCase, time.Duration(beego.AppConfig.DefaultInt("executionTimeout", 5))*time.Second, apiResponseInterface)
 	customerHandler.NewCustomerHandler(customerUC, time.Duration(beego.AppConfig.DefaultInt("executionTimeout", 5))*time.Second, apiResponseInterface)
 	cartHandler.NewProductHandler(cartUC, time.Duration(beego.AppConfig.DefaultInt("executionTimeout", 5))*time.Second, apiResponseInterface)
+	orderHandler.NewOrderHandler(orderUC, time.Duration(beego.AppConfig.DefaultInt("executionTimeout", 5))*time.Second, apiResponseInterface)
 
 	// Initializing the server in a goroutine so that
 	// it won't block the graceful shutdown handling below

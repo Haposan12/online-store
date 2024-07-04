@@ -31,9 +31,9 @@ func NewProductHandler(useCase cart.UseCase, executionTimeout time.Duration, api
 		Duration:             executionTimeout,
 	}
 
-	beego.Router("/api/v1/cart", handler, "post:CreateCart")
-	beego.Router("/api/v1/cart", handler, "get:GetListCart")
-	beego.Router("/api/v1/cart/:id", handler, "delete:DeleteCart")
+	beego.Router("/customer/v1/cart", handler, "post:CreateCart")
+	beego.Router("/customer/v1/cart", handler, "get:GetListCart")
+	beego.Router("/customer/v1/cart/:id", handler, "delete:DeleteCart")
 }
 
 func (h *CartHandler) Prepare() {

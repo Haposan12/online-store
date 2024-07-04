@@ -9,5 +9,5 @@ import (
 )
 
 func InitRouterFilters(restyHttpClient *httpclient.RestyHttpClient, log zaplogger.Logger, apiResponse response.APIResponseInterface) {
-	beego.InsertFilterChain("/api/*", middleware.NewAuthMiddleware(apiResponse).ValidateAuth())
+	beego.InsertFilterChain("/customer/*", middleware.NewAuthMiddleware(apiResponse).ValidateAuth())
 }

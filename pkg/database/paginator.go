@@ -138,11 +138,11 @@ func (p *Paginator) rawStatement(ctx context.Context) *gorm.DB {
 
 	if db.Dialector.Name() == "sqlserver" {
 		if db.Statement.Schema != nil && db.Statement.Schema.PrioritizedPrimaryField != nil {
-			db.Statement.SQL.WriteString("ORDER BY ")
+			db.Statement.SQL.WriteString("order BY ")
 			db.Statement.WriteQuoted(db.Statement.Schema.PrioritizedPrimaryField.DBName)
 			db.Statement.SQL.WriteByte(' ')
 		} else {
-			db.Statement.SQL.WriteString("ORDER BY (SELECT NULL) ")
+			db.Statement.SQL.WriteString("order BY (SELECT NULL) ")
 		}
 
 		if p.CurrentPage > 0 {
@@ -173,7 +173,7 @@ func (p *Paginator) rawStatementCustomOrderBy(ctx context.Context, orderBy strin
 	db.Statement.SQL.WriteString(" ")
 
 	if db.Statement.Schema != nil && db.Statement.Schema.PrioritizedPrimaryField != nil {
-		db.Statement.SQL.WriteString("ORDER BY ")
+		db.Statement.SQL.WriteString("order BY ")
 		db.Statement.WriteQuoted(db.Statement.Schema.PrioritizedPrimaryField.DBName)
 		db.Statement.SQL.WriteByte(' ')
 	} else {
