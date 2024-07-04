@@ -49,6 +49,7 @@ func (h *ProductHandler) GetListProduct() {
 
 	var request domain.GetProductListRequest
 	request.ProductCategory = h.Ctx.Input.Query("product_category")
+	request.Search = h.Ctx.Input.Query("search")
 
 	//validate request
 	if err := validator.Validate.ValidateStruct(&request); err != nil {
